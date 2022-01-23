@@ -41,7 +41,7 @@ Face API を利用するための環境を構築します。
 2-1. 任意のリポジトリで本リポジトリをクローンし移動します。
 
 ```
-git clone https://github.com/mspjp/20210721-FaceAPI.git
+git clone https://github.com/yakkun0521/20210721-FaceAPI.git
 cd 20210721-FaceAPI/
 ```
 
@@ -135,6 +135,47 @@ Results saved in detected_faces.jpg
 上記の例では、画像内の2人の顔のメガネに関する情報（Glasses）を出力しています。'detected_faces.jpg' にアノテーションされた Face ID と照らし合わせて確認してください。`noGlasses` は「メガネをかけていない」、`readingGlasses` は「通常の眼鏡（視力補助用のもの）をかけている」ことを示しています。その他にも、サングラスの場合は `sunglasses`、水泳用ゴーグルの場合は `swimmingGoggles` などと出力されます。
 
 メガネに関する情報以外にも様々な要素を取得できます。詳しくは ['FaceAttributes' クラスのドキュメント](https://docs.microsoft.com/ja-jp/dotnet/api/microsoft.azure.cognitiveservices.vision.face.models.faceattributes) の Properties を参照してください。
+
+他のサイトでは，例が上がっていなかった `Attributes.Smile`　プログラムと実行結果を示す．
+34行目`return_face_attributes` と出力の仕方を変更すればよい．
+```
+detected_faces = face_client.face.detect_with_stream(image=image_data, 
+return_face_attributes=[FaceAttributeType.smile]) 
+```
+
+```
+print('¥nFace ID: {}'.format(face.face_id)) 
+ detected_attributes = face.face_attributes.as_dict() 
+ print(' - Smile: {}'.format(detected_attributes['smile']))
+```
+値は０以上 1以下の少数で返され，1 に近づくほど笑顔と判断されている．
+```
+Detecting faces in images¥personA.jpg 
+1 faces detected. 
+Face ID: 3074c745-e985-41bd-932e-90a608aa55ca 
+ - Smile: 0.983 
+ ```
+`Attributes.emotion` だと出力の仕方を変更しなければいけない．
+ 
+ ```
+34: detected_faces = face_client.face.detect_with_stream(image=image_data, 
+35: return_face_attributes=[FaceAttributeType.emotion])
+
+49: print('¥nFace ID: {}'.format(face.face_id))
+50: detected_attributes = face.face_attributes.as_dict()
+51: print(' -Emotion : {}'.format(detected_attributes['emotion']))
+
+60: annotation = ' -Emotion : {}'.format(max((detected_attributes['emotion'])))
+```
+実行結果は以下のようになる．
+```
+Detecting faces in images¥personA.jpg
+1 faces detected.
+Face ID: 435e1da0-becf-4783-b628-84618f417ad8
+-Emotion : {'anger': 0.0, 'contempt': 0.0, 'disgust': 0.0, 'fear': 0.0, 'happiness': 0.983, 'neutral': 
+0.017, 'sadness': 0.0, 'surprise': 0.0}
+Results saved in detected_faces.jpg
+```
 
 ### 5. 顔比較プログラムの実行
 
