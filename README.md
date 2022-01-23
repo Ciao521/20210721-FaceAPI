@@ -1,4 +1,4 @@
-<h1>MS Azure </br>
+<h1> </br>
 Face API で画像内の顔を検出・分析</h1>
 
 Face API を使って画像から顔を検出し、分析してみます。
