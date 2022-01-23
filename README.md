@@ -176,6 +176,7 @@ Face ID: 435e1da0-becf-4783-b628-84618f417ad8
 0.017, 'sadness': 0.0, 'surprise': 0.0}
 Results saved in detected_faces.jpg
 ```
+![](https://user-images.githubusercontent.com/64264545/150686473-d535af64-d9b2-4add-9c46-78008e8bd4b0.png)
 
 ### 5. 顔比較プログラムの実行
 
